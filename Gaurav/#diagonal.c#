@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <math.h>
+
+
+void solve(int A[],int x,int C[])
+{
+  
+
+
+void sol(int A[],int B[],int x[])
+{
+  int C[2],D[2];
+  solve(A,x[0],C);
+
+
+
+
+
+
+
+
+int main()
+{
+  int A[4],x[2],g,h;
+  int B[4];
+
+  
+  printf("Enter the value of the matrix in rowise order\n");
+  scanf("%d %d %d %d",&A[0],&A[1],&A[2],&A[3]);
+
+  g=A[0]+A[3];
+  h=A[0]*A[3]-A[2]*A[1];
+
+  x[0]=(g+sqrt(g*g-4*h))/2;
+  x[1]=(g-sqrt(g*g-4*h))/2;
+
+  sol(A,B,x);

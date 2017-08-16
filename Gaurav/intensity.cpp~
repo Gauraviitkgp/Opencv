@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <iostream>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+
+using namespace cv;
+using namespace std;
+
+int i,j,t,p;
+
+void displayimage(Mat image, String windowname){
+    
+    imshow(windowname, image);
+}
+
+
+Mat readimage(String filename)
+{
+    return imread(filename);
+}
+
+void meanblur(Mat img)
+{
+  Mat temp(img.rows,img.cols,CV_8UC3);
+  int i,j,k,l,c=0,sum[3]={0},g;
+  for(g=0;g<7;g++)
+    {
+      for(i=250;i<img.rows;i++)
+	{
+	  for(j=250;j<img.cols;j++)
+	    {
+	      for(k=-1;k<2;k++)
+		{
+		  for(l=-1;l<2;l++)
+		    {
+		      if(k+i>=0 &&k+i<=img.rows && l+j>=0 && l+j<=img.cols)
+			{
+			  sum[0]+=img.at<Vec3b>(i+k,j+l)[0];
+			  sum[1]+=img.at<Vec3b>(i+k,j+l)[1];
+			  sum[2]+=img.at<Vec3b>(i+k,j+l)[2];
+			  c++;
+			}
+		    }
+		}
+	      img.at<Vec3b>(i,j)[0]=(int)(sum[0]/c);
+	      img.at<Vec3b>(i,j)[1]=(int)(sum[1]/c);
+	      img.at<Vec3b>(i,j)[2]=(int)(sum[2]/c);
+	      c=sum[0]=sum[1]=sum[2]=0;
+	    }
+	}
+    }
+  imshow("Image",img);
+}
+
+
+int main(int argc, char** argv){
+       
+    Mat image=imread(argv[1],CV_LOAD_IMAGE_COLOR);
+    imshow("Original",image);
+    meanblur(image);
+    waitKey(0);
+    return 0;
+}
+

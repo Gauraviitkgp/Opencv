@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <iostream>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+
+using namespace cv;
+using namespace std;
+
+int i,j,t,p;
+
+void displayimage(Mat image, String windowname){
+    
+    imshow(windowname, image);
+}
+
+
+Mat readimage(String filename)
+{
+    return imread(filename);
+}
+
+
+
+
+int main(int argc, char** argv){
+  int i,j,k;   
+    Mat image=imread(argv[1],CV_LOAD_IMAGE_COLOR);
+    for(i=240;i<400;i++)
+      {
+	for(j=240;j<400;j++)
+	  {
+	    for(k=0;k<3;k++)
+	      image.at<Vec3b>[k]=0;
+	  }
+      }
+    imshow("ima",image);
+    waitKey(0);
+    return 0;
+}
+

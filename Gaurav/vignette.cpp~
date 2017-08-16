@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <iostream>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+#include <math.h>
+
+using namespace cv;
+using namespace std;
+
+
+void displayimage(Mat image, String windowname){
+    
+    imshow(windowname, image);
+}
+
+
+Mat readimage(String filename)
+{
+    return imread(filename);
+}
+
+float dist(int i,int j,Mat image)
+{
+  return sqrt((i-(image.rows/2))*(i-(image.rows/2))+(j-(image.cols/2))*(j-(image.cols/2)));
+}
+
+void vignette(Mat image)
+{
+  int factor=10;
+  int i,j,k;
+  Mat temp;
+  for(i=0;i<image.rows;i++)
+    {
+      for(j=0;j<image.cols;j++)
+	{
+	  for(k=0;k<3;k++)
+	    {	      
+	      image.at<Vec3b>(i,j)[k]*=(1-(dist(i,j,image)/dist(0,0,image)));
+	    }
+	}
+    }
+  imshow("Image",image);
+}
+
+
+
+
+int main(int argc, char** argv)
+{
+       
+    Mat image=imread(argv[1],CV_LOAD_IMAGE_COLOR);
+    vignette(image);
+    waitKey(0);
+    return 0;
+}
+
